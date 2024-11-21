@@ -1,5 +1,6 @@
 import scrapy
-
+# import item
+from bookscraper.items import BookItem
 
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
@@ -17,19 +18,20 @@ class BookspiderSpider(scrapy.Spider):
         if next_page:
             yield response.follow(next_page, self.parse)
     def parse_book(self, response):
+        bookItem = BookItem()
         table_rows = response.css("table tr")
 
-        yield {
-    "title" :response.css("h1::text").get(),
-    "price": response.css(".price_color::text").get(),
-    "upc": table_rows[0].css("td::text").get(),
-    "product_type": table_rows[1].css("td::text").get(),
-    "price_without_tax": table_rows[2].css("td::text").get(),
-    "price_with_tax": table_rows[3].css("td::text").get(),
-    "tax": table_rows[4].css("td::text").get(),
-    "availability": table_rows[5].css("td::text").get(),
-    "number_of_reviews": table_rows[6].css("td::text").get(),
-    "description": response.xpath("//div[@id='product_description']/following-sibling::p/text()").get(),
-    "rating": response.css("p.star-rating").attrib["class"].split()[-1],
-    "category": response.css(".breadcrumb a::text").getall()[2],
-       }
+    
+        bookItem["title"] = response.css("h1::text").get(),
+        bookItem[ "price"] =  response.css(".price_color::text").get(),
+        bookItem[ "upc"] =  table_rows[0].css("td::text").get(),
+        bookItem[ "product_type"]= table_rows[1].css("td::text").get(),
+        bookItem["price_without_tax"]= table_rows[2].css("td::text").get(),
+        bookItem[ "price_with_tax"]= table_rows[3].css("td::text").get(),
+        bookItem[ "tax"]= table_rows[4].css("td::text").get(),
+        bookItem[ "availability"]=  table_rows[5].css("td::text").get(),
+        bookItem["number_of_reviews"]=  table_rows[6].css("td::text").get(),
+        bookItem["description"]=  response.xpath("//div[@id='product_description']/following-sibling::p/text()").get(),
+        bookItem[ "rating"] = response.css("p.star-rating").attrib["class"].split()[-1],
+        bookItem[ "category"] = response.css(".breadcrumb a::text").getall()[2],
+        yield bookItem

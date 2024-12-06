@@ -1,11 +1,18 @@
 import scrapy
 # import item
 from bookscraper.items import BookItem
-
+import random
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
     allowed_domains = ["books.toscrape.com"]
     start_urls = ["https://books.toscrape.com"]
+    user_agent_list = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+    ]
 
     def parse(self, response):
         # Extracting the content using css selectors
@@ -13,10 +20,10 @@ class BookspiderSpider(scrapy.Spider):
         for book in books:
             relative_url = book.css("h3 a").attrib["href"]
             
-            yield response.follow(relative_url, self.parse_book)
+            yield response.follow(relative_url, self.parse_book,headers={"User-Agent": self.user_agent_list[random.randint(0, len(self.user_agent_list) - 1)]})
         next_page = response.css(".next a::attr(href)").get()
         if next_page:
-            yield response.follow(next_page, self.parse)
+            yield response.follow(next_page, self.parse,headers={"User-Agent": self.user_agent_list[random.randint(0, len(self.user_agent_list) - 1)]})
     def parse_book(self, response):
         bookItem = BookItem()
         table_rows = response.css("table tr")

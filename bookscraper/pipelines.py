@@ -44,18 +44,19 @@ class BookscraperPipeline:
         adapter['number_of_reviews'] =  int(number_reviews_string)
 
         star_text_value = adapter.get('rating')
+        num_value = star_text_value.lower()
         
-        if star_text_value == "zero":
+        if num_value == "zero":
             adapter['rating'] = 0
-        if star_text_value == "one":
-            adapter['rating'] == 1
-        if star_text_value == "two":
+        if num_value == "one":
+            adapter['rating'] = 1
+        if num_value == "two":
             adapter["rating"] = 2
-        if star_text_value == "three":
+        if num_value == "three":
             adapter['rating'] = 3
-        if star_text_value == "four":
+        if num_value == "four":
             adapter["rating"] = 4
-        if star_text_value == "five":
+        if num_value == "five":
             adapter["rating"] = 5
         
 
@@ -70,7 +71,7 @@ class SaveToMysqlPipeline:
             database = 'books'
         )
         self.cur = self.conn.cursor()
-        self.cur.execute('''
+        self.cur.execute("""
             CREATE TABLE IF NOT EXISTS books(
                 id INT AUTO_INCREMENT,
                 title TEXT,
@@ -80,19 +81,32 @@ class SaveToMysqlPipeline:
                 price_without_tax DECIMAL,
                 tax DECIMAL,
                 price_with_tax DECIMAL,
-                availability INT,
-                rating INT,
-                number_of_reviews INT,
-                product_type TEXT,
-                category TEXT,
+                availability INTEGER,
+                rating INTEGER,
+                number_of_reviews INTEGER,
+                product_type VARCHAR(255),
+                category VARCHAR(255),
                 description TEXT,
                 PRIMARY KEY (id)
             )
-        ''')
+        """)
     def process_item(self,item,spider):
-        self.cur.execute('''
-            INSERT INTO books (title,price,url,upc,price_without_tax,tax,price_with_tax,availability,rating,number_of_reviews,product_type,category,description) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        ''',(item['title'],item['price'],item['url'],item['upc'],item['price_without_tax'],item['tax'],item['price_with_tax'],item['availability'],item['rating'],item['number_of_reviews'],item['product_type'],item['category'],item['description']))
+        self.cur.execute("""
+            INSERT INTO books (
+                         title,
+                         price,
+                         url,
+                         upc,
+                         price_without_tax,
+                         tax,
+                         price_with_tax,
+                         availability,
+                         rating,
+                         number_of_reviews,
+                         product_type,
+                         category,
+                         description) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """,(item['title'],item['price'],item['url'],item['upc'],item['price_without_tax'],item['tax'],item['price_with_tax'],item['availability'],item['rating'],item['number_of_reviews'],item['product_type'],item['category'],str(item['description'][0])))
         self.conn.commit()
         return item
     def close_spider(self,spider):

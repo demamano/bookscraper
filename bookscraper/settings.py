@@ -19,6 +19,11 @@ FEEDS = {
          },
 }
 
+SCRAPEOPS_API_KEY = '079bfa74-69ab-4057-9042-d70afa915251'
+SCRAPEOPS_FAK_USER_AGENT_ENDPOINT='https://headers.scrapeops.io/v1/browser-headers'
+SCRAPEOPS_FAKE_USER_AGENTS_ACTIVE = True
+SCRAPEOPS_NUM_RESULTS = 50
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
 

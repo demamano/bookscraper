@@ -11,7 +11,7 @@ import random
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
-from bookscraper.bookscraper import settings
+from bookscraper import settings
 
 
 class BookscraperSpiderMiddleware:
@@ -111,11 +111,11 @@ class ScrapOpsFakeUserAgentMiddleware:
     @classmethod
     def from_crawler(cls,crawler):
         return cls(crawler.settings)
-    def __init__(self):
+    def __init__(self,settings):
         self.scrapeops_api_key = settings.get('SCRAPEOPS_API_KEY')
         self.scrapeops_endpoint = settings.get('SCRAPEOPS_FAK_USER_AGENT_ENDPOINT')
         self.scrapeops_fake_user_agents_active = settings.get('SCRAPEOPS_FAK_USER_AGENT_ENDPOINT')
-        self.scrapeops_num_results = settings('SCRAPEOPS_NUM_RESULTS')
+        self.scrapeops_num_results = settings.get('SCRAPEOPS_NUM_RESULTS')
         self.headers_list = []
         self._get_user_agents_list()
         self._scrapeops_fake_user_agents_enabled()
@@ -128,7 +128,10 @@ class ScrapOpsFakeUserAgentMiddleware:
             payload['num_results'] = self.scrapeops_num_results
             response = requests.get(self.scrapeops_endpoint, params=urlencode(payload))
             json_response = response.json()
-            self.user_agents_list = json_response.get('results',[])
+            self.user_agents_list = json_response.get('result',[])
+            print("user agents list",self.user_agents_list)
+            print("====================================")
+            print("initial Format",self.user_agents_list[0])
          
                
        
@@ -140,14 +143,16 @@ class ScrapOpsFakeUserAgentMiddleware:
     
     def _get_random_user_agent(self):
         random_index = random.randint(0,len(self.user_agents_list)-1)
+        print("random index",random_index)
         return self.user_agents_list[random_index]
     def process_request(self,request,spider):
         random_user_agent = self._get_random_user_agent()
         request.headers['User-Agent'] = random_user_agent
-    def process_response(self,request,response,spider):
-        return response
-    def process_exception(self,request,exception,spider):
-        pass
+
+        print("************************************ NEW USER AGENT ************************************")
+        print("random user agent",request.headers['User-Agent'])
+        print("************************************ NEW USER AGENT ************************************")
+        print(request.headers)
 
 
 

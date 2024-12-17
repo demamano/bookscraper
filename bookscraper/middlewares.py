@@ -162,7 +162,7 @@ class ScrapOpsBrowserHeaderMiddleware:
     def __init__(self,settings):
         self.scrapeops_api_key = settings.get('SCRAPEOPS_API_KEY')
         self.scrapeops_endpoint = settings.get('SCRAPEOPS_FAKE_BROWSER_USER_ENDPOINT')
-        self.scrapeops_fake_browser_headers_active = settings.get('SCRAPEOPS_FAKE_BROWSER_HEADERS_ACTIVE')
+        self.scrapeops_fake_browser_headers_active = settings.get('SCRAPEOPS_FAKE_BROWSER_HEADERS_ACTIVE',True)
         self.scrapeops_num_results = settings.get('SCRAPEOPS_NUM_RESULTS')
         self.headers_list = []
         self._get_browser_headers_list()
@@ -186,6 +186,25 @@ class ScrapOpsBrowserHeaderMiddleware:
         return self.headers_list[random_index]
     def process_request(self,request,spider):
         random_browser_headers = self._get_random_browser_headers()
+    #     request.headers['user-agent'] = random_browser_headers['user-agent']
+    #     request.headers['accept'] = random_browser_headers['accept']
+    #     request.headers['accept-language'] = random_browser_headers['accept-language']
+    #     request.headers['Connection'] = random_browser_headers['Connection']
+    #     request.headers['upgrade-insecure-requests'] = random_browser_headers['upgrade-insecure-requests']
+    #     request.headers['Cache-Control'] = random_browser_headers['Cache-Control']
+    #     request.headers['TE'] = random_browser_headers['TE']
+    #     request.headers['Pragma'] = random_browser_headers['Pragma']
+    #     request.headers['Host'] = random_browser_headers['Host']
+    #     request.headers['Referer'] = random_browser_headers['Referer']
+    #     request.headers['Sec-Fetch-Dest'] = random_browser_headers['Sec-Fetch-Dest']
+    #     request.headers['Sec-Fetch-Mode'] = random_browser_headers['Sec-Fetch-Mode']
+    #     request.headers['Sec-Fetch-Site'] = random_browser_headers['Sec-Fetch-Site']
+    #     request.headers['sec-fetch-user'] = random_browser_headers['sec-fetch-user']
+
+     
+
+
         for key in random_browser_headers:
-            request.headers[key] = random_browser_headers[key]
+            # key to lower case
+            request.headers[key.lower()] = random_browser_headers[key]
 

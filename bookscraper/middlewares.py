@@ -186,25 +186,22 @@ class ScrapOpsBrowserHeaderMiddleware:
         return self.headers_list[random_index]
     def process_request(self,request,spider):
         random_browser_headers = self._get_random_browser_headers()
-    #     request.headers['user-agent'] = random_browser_headers['user-agent']
-    #     request.headers['accept'] = random_browser_headers['accept']
-    #     request.headers['accept-language'] = random_browser_headers['accept-language']
-    #     request.headers['Connection'] = random_browser_headers['Connection']
-    #     request.headers['upgrade-insecure-requests'] = random_browser_headers['upgrade-insecure-requests']
-    #     request.headers['Cache-Control'] = random_browser_headers['Cache-Control']
-    #     request.headers['TE'] = random_browser_headers['TE']
-    #     request.headers['Pragma'] = random_browser_headers['Pragma']
-    #     request.headers['Host'] = random_browser_headers['Host']
-    #     request.headers['Referer'] = random_browser_headers['Referer']
-    #     request.headers['Sec-Fetch-Dest'] = random_browser_headers['Sec-Fetch-Dest']
-    #     request.headers['Sec-Fetch-Mode'] = random_browser_headers['Sec-Fetch-Mode']
-    #     request.headers['Sec-Fetch-Site'] = random_browser_headers['Sec-Fetch-Site']
-    #     request.headers['sec-fetch-user'] = random_browser_headers['sec-fetch-user']
+        request.headers['user-agent'] = random_browser_headers['user-agent']
+        request.headers['accept'] = random_browser_headers['accept']
+        request.headers['accept-language'] = random_browser_headers['accept-language']
+        # request.headers['upgrade-insecure-requests'] = random_browser_headers['upgrade-insecure-requests']
+        request.headers['sec-fetch-mode'] = random_browser_headers['sec-fetch-mode']
+        # request.headers['sec-fetch-site'] = random_browser_headers['Sec-fetch-site']
+        request.headers['sec-fetch-user'] = random_browser_headers['sec-fetch-user']
+        request.headers['accept-encoding'] = random_browser_headers['accept-encoding']
+        request.headrs['set-ch-ua-platform'] = random_browser_headers['set-ch-ua-platform']
+        request.headers['set-ch-ua-mobile'] = random_browser_headers['set-ch-ua-mobile']
+        request.headers['set-ch-ua'] = random_browser_headers['set-ch-ua']
 
      
 
 
-        for key in random_browser_headers:
-            # key to lower case
-            request.headers[key.lower()] = random_browser_headers[key]
+        # for key in random_browser_headers:
+        #     # key to lower case
+        #     request.headers[key.lower()] = random_browser_headers[key]
 

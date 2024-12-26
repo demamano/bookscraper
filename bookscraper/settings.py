@@ -12,12 +12,12 @@ BOT_NAME = "bookscraper"
 SPIDER_MODULES = ["bookscraper.spiders"]
 NEWSPIDER_MODULE = "bookscraper.spiders"
 
-FEEDS = {
-      "books.csv": {
-            "format": "csv",
-            "fields": ["title", "price_without_tax", "price_with_tax", "tax", "availability", "rating", "number_of_reviews", "product_type", "category", "description", "image_url"],
-         },
-}
+# FEEDS = {
+#       "books.csv": {
+#             "format": "csv",
+#             "fields": ["title", "price_without_tax", "price_with_tax", "tax", "availability", "rating", "number_of_reviews", "product_type", "category", "description", "image_url"],
+#          },
+# }
 
 SCRAPEOPS_API_KEY = '079bfa74-69ab-4057-9042-d70afa915251'
 SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT='https://headers.scrapeops.io/v1/browser-headers'
@@ -67,7 +67,7 @@ ROBOTSTXT_OBEY = False
 DOWNLOADER_MIDDLEWARES = {
    # "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
    # "bookscraper.middlewares.ScrapOpsFakeUserAgentMiddleware": 400,
-   "bookscraper.middlewares.ScrapOpsBrowserHeaderMiddleware": 401,
+   "bookscraper.middlewares.ScrapOpsBrowserHeaderMiddleware": 400,
 }
 
 # Enable or disable extensions

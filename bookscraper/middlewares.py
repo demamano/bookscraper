@@ -184,18 +184,6 @@ class ScrapOpsBrowserHeaderMiddleware:
     def _get_random_browser_headers(self):
         random_index = random.randint(0,len(self.headers_list)-1)
         return self.headers_list[random_index]
-    # def process_request(self, request, spider):
-    #     if not self.scrapeops_fake_browser_headers_active:
-    #         print("ScrapeOps Fake Browser Headers is not active")
-    #         return
-            
-    #     random_browser_header = self._get_random_browser_headers()
-    #     if not random_browser_header:
-    #         return
-
-    #     # Set the headers
-    #     for key, value in random_browser_header.items():
-    #         request.headers[key] = value
     def process_request(self,request,spider):
         random_browser_headers = self._get_random_browser_headers()
         print("random browser headers",random_browser_headers)

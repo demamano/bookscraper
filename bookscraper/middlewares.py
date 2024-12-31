@@ -201,10 +201,3 @@ class ScrapOpsBrowserHeaderMiddleware:
         request.headers['sec-ch-ua-mobile'] = random_browser_headers.get('sec-ch-ua-mobile','?0')
         request.headers['sec-ch-ua'] = random_browser_headers.get('sec-ch-ua','"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"')
 
-     
-
-
-        # for key in random_browser_headers:
-        #     # key to lower case
-        #     request.headers[key.lower()] = random_browser_headers[key]
-

@@ -129,9 +129,6 @@ class ScrapOpsFakeUserAgentMiddleware:
             response = requests.get(self.scrapeops_endpoint, params=urlencode(payload))
             json_response = response.json()
             self.user_agents_list = json_response.get('result',[])
-            print("user agents list",self.user_agents_list)
-            print("====================================")
-            print("initial Format",self.user_agents_list[0])
          
                
        
@@ -143,16 +140,10 @@ class ScrapOpsFakeUserAgentMiddleware:
     
     def _get_random_user_agent(self):
         random_index = random.randint(0,len(self.user_agents_list)-1)
-        print("random index",random_index)
         return self.user_agents_list[random_index]
     def process_request(self,request,spider):
         random_user_agent = self._get_random_user_agent()
         request.headers['User-Agent'] = random_user_agent
-
-        print("************************************ NEW USER AGENT ************************************")
-        print("random user agent",request.headers['User-Agent'])
-        print("************************************ NEW USER AGENT ************************************")
-        print(request.headers)
     
 
 class ScrapOpsBrowserHeaderMiddleware:
@@ -186,9 +177,6 @@ class ScrapOpsBrowserHeaderMiddleware:
         return self.headers_list[random_index]
     def process_request(self,request,spider):
         random_browser_headers = self._get_random_browser_headers()
-        print("random browser headers",random_browser_headers)
-        print("================================ ")
-        print("ScrapOps FAKE BROWSER HEADERS ACTIVE",self.scrapeops_fake_browser_headers_active)
         request.headers['user-agent'] = random_browser_headers['user-agent']
         request.headers['accept'] = random_browser_headers['accept']
         request.headers['accept-language'] = random_browser_headers['accept-language']

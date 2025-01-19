@@ -213,6 +213,7 @@ class ScrapOpsBrowserHeaderMiddleware:
 
         if self.scrapeops_fake_browser_headers_active:
             self._get_browser_headers_list()
+            # print("Headers list",self.headers_list)
 
     def _get_browser_headers_list(self):
         try:
@@ -239,7 +240,10 @@ class ScrapOpsBrowserHeaderMiddleware:
 
         random_browser_headers = self._get_random_browser_headers()
         if random_browser_headers:
+            # random_browser_headers.pop('sec-fetch-site', None)
+            # random_browser_headers['sec-fetch-site'] = 'cross-site'
+
             for key, value in random_browser_headers.items():
                 print("key",key)
-                print("value",value)
+                print("============================")
                 request.headers[key] = value

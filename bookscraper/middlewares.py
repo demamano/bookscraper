@@ -240,10 +240,9 @@ class ScrapOpsBrowserHeaderMiddleware:
 
         random_browser_headers = self._get_random_browser_headers()
         if random_browser_headers:
-            # random_browser_headers.pop('sec-fetch-site', None)
-            # random_browser_headers['sec-fetch-site'] = 'cross-site'
+            random_browser_headers.pop('accept-encoding', None)
 
             for key, value in random_browser_headers.items():
-                print("key",key)
+                print(key, value)
                 print("============================")
                 request.headers[key] = value
